@@ -1,6 +1,6 @@
 # DESAFIO DE AUTOMAÇÃO DE INSPEÇÃO DE PEÇAS
 
-# 1. Padrões de Qualidade
+# 1. Critérios de qualidade pre-definidos
 PESO_MIN, PESO_MAX = 95, 105
 CORES_PERMITIDAS = ['azul', 'verde']
 COMP_MIN, COMP_MAX = 10, 20
@@ -40,7 +40,7 @@ def buscar_peca(peca_id):
     return next((p for p in todas_as_pecas if p['id'] == peca_id), None)
 
 
-# 3. Menu interativo
+# 4. Funções do Menu
 
 def cadastrar():
     peca_id = input("  ID da peça: ").strip()
@@ -128,7 +128,7 @@ def relatorio():
         f" Peças na Caixa Atual (Caixa {len(caixas)}): {len(caixas[-1])} / {CAPACIDADE_CAIXA}")
 
 
-# Menu interativo
+# 5.Menu interativo
 menu_opcoes = {
     "1": ("Cadastrar nova peça", cadastrar),
     "2": ("Listar peças aprovadas/reprovadas", listar),
