@@ -1,30 +1,29 @@
 # DESAFIO DE AUTOMAÇÃO DE INSPEÇÃO DE PEÇAS
 
 # 1. Critérios de qualidade pre-definidos
-PESO_MIN, PESO_MAX = 95, 105
-CORES_PERMITIDAS = ['azul', 'verde']
-COMP_MIN, COMP_MAX = 10, 20
-CAPACIDADE_CAIXA = 10
+
+Peso_min, Peso_max = 95, 105
+Cores_Permitidas = ['azul', 'verde']
+Comp_min, Comp_max = 10, 20
+Capacidade_caixa = 10
 
 todas_as_pecas = []
 caixas = [[]]
 
 # 2. Função de verificação
 
-
 def verificar_peca(peso, cor, comp):
 
     lista_erros = []
-    if not (PESO_MIN <= peso <= PESO_MAX):
+    if not (Peso_min <= peso <= Peso_max):
         lista_erros.append("Peso")
-    if cor not in CORES_PERMITIDAS:
+    if cor not in Cores_Permitidas:
         lista_erros.append("Cor")
-    if not (COMP_MIN <= comp <= COMP_MAX):
+    if not (Comp_min <= comp <= Comp_max):
         lista_erros.append("Comp.")
     return lista_erros
 
-# 3. Função para evitar repetição
-
+# 3. Função para evitar repetição e buscar peça
 
 def obter_float(prompt):
 
@@ -34,13 +33,11 @@ def obter_float(prompt):
         except ValueError:
             print(" Número inválido.")
 
-
 def buscar_peca(peca_id):
 
     return next((p for p in todas_as_pecas if p['id'] == peca_id), None)
 
-
-# 4. Funções do Menu
+# 4. Funções do Menu Interativo
 
 def cadastrar():
     peca_id = input("  ID da peça: ").strip()
@@ -61,15 +58,14 @@ def cadastrar():
     todas_as_pecas.append(peca)
 
     if status == "Aprovada":
-        print(f"  -> Peça {peca_id} APROVADA.")
+        print(f" Peça {peca_id} APROVADA.")
         caixa_atual = caixas[-1]
         caixa_atual.append(peca_id)
-        if len(caixa_atual) == CAPACIDADE_CAIXA:
-            print(f"[AVISO] Caixa {len(caixas)} cheia!.")
+        if len(caixa_atual) == Capacidade_caixa:
+            print(f"[AVISO] Caixa {len(caixas)} está cheia!.")
             caixas.append([])
     else:
-        print(f"  -> Peça {peca_id} REPROVADA. Motivos: {motivos}")
-
+        print(f" Peça {peca_id} REPROVADA. Motivos: {motivos}")
 
 def listar():
     if not todas_as_pecas:
@@ -79,8 +75,7 @@ def listar():
 
         status_str = f" ID: {peca_id["id"]} (Aprovada)" if peca_id[
             "status"] == "Aprovada" else f" ID: {peca_id["id"]} (Reprovada, Motivos: {peca_id["motivos"]})"
-        print(f"  {status_str}")
-
+        print(f" {status_str}")
 
 def remover():
     peca_id = input("  ID para remover: ").strip()
@@ -97,20 +92,19 @@ def remover():
             if peca_id in caixa:
                 caixa.remove(peca_id)
                 break
-    print(f"-> Peça {peca_id} removida.")
+    print(f" Peça {peca_id} removida.")
 
+def caixas_fechadas():
 
-def ver_caixas():
-
-    for i, caixa in (caixas):
+    for i, caixa in enumerate(caixas):
         numero_caixa = i + 1
         status = "(Fechada)" if numero_caixa < len(caixas) else "(Em uso)"
         print(
-            f"Caixa {numero_caixa} {status} [{len(caixa)}/{CAPACIDADE_CAIXA}] Peças: {caixa}")
+            f"Caixa {numero_caixa} {status} [{len(caixa)}/{Capacidade_caixa}] Peças: {caixa}")
 
 
 def relatorio():
-    print("RELATÓRIO FINAl")
+    print("RELATÓRIO FINAL")
     aprovadas = sum(1 for p in todas_as_pecas if p['status'] == 'Aprovada')
     reprovadas = len(todas_as_pecas) - aprovadas
 
@@ -125,19 +119,20 @@ def relatorio():
         f" Erros: Peso({erros['Peso']}), Cor({erros['Cor']}), Comp.({erros['Comp.']})")
     print(f" Caixas Fechadas: {len(caixas) - 1}")
     print(
-        f" Peças na Caixa Atual (Caixa {len(caixas)}): {len(caixas[-1])} / {CAPACIDADE_CAIXA}")
+        f" Peças na Caixa Atual (Caixa {len(caixas)}): {len(caixas[-1])} / {Capacidade_caixa}")
 
 
 # 5.Menu interativo
 menu_opcoes = {
-    "1": ("Cadastrar nova peça", cadastrar),
-    "2": ("Listar peças aprovadas/reprovadas", listar),
-    "3": ("Remover peça cadastrada", remover),
-    "4": ("Listar caixas fechadas", ver_caixas),
-    "5": ("Gerar relatório final", relatorio)
+    "1":("Cadastrar nova peça", cadastrar),
+    "2":("Listar peças aprovadas/reprovadas", listar),
+    "3":("Remover peça cadastrada", remover),
+    "4":("Listar caixas fechadas", caixas_fechadas),
+    "5":("Gerar relatório final", relatorio)
 }
-
+print("---------------------------------------")
 print("Bem-vindo ao Sistema de Gestão de Peças!")
+print("---------------------------------------")
 
 while True:
     print("Menu de opções:")
@@ -149,15 +144,15 @@ while True:
     escolha = input("Escolha (1-6): ").strip()
 
     if escolha == "6":
-        print("Encerrando...")
+        print("Fechando programa ...")
         break
 
     acao = menu_opcoes.get(escolha)
 
     if acao:
-        print(f"\n--- {acao[0]} ---")
+        print(f"{acao[0]}")
         acao[1]()
     else:
         print("Opção inválida. Tente novamente.")
 
-    input("Pressione Enter para continuar...")
+    input("Pressione Enter para voltar ao menu...")
