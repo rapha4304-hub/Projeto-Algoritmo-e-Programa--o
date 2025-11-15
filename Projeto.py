@@ -40,13 +40,13 @@ def buscar_peca(peca_id):
 # 4. Funções do Menu Interativo
 
 def cadastrar():
-    peca_id = input("  ID da peça: ").strip()
+    peca_id = input("  ID da peça: ")
     if buscar_peca(peca_id):
         print("ID já existe.")
         return
 
     peso = obter_float(f"  Peso (g) de {peca_id}: ")
-    cor = input(f"  Cor de {peca_id}: ").strip().lower()
+    cor = input(f"  Cor de {peca_id}: ")
     comp = obter_float(f"  Comprimento (cm) de {peca_id}: ")
 
     motivos = verificar_peca(peso, cor, comp)
@@ -78,7 +78,7 @@ def listar():
         print(f" {status_str}")
 
 def remover():
-    peca_id = input("  ID para remover: ").strip()
+    peca_id = input("  ID para remover: ")
     peca_encontrada = buscar_peca(peca_id)
 
     if not peca_encontrada:
@@ -141,7 +141,7 @@ while True:
         print(f" {chave}. {texto}")
     print(" 6. Sair")
 
-    escolha = input("Escolha (1-6): ").strip()
+    escolha = input("Escolha (1-6): ")
 
     if escolha == "6":
         print("Fechando programa ...")
